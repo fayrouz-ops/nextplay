@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPlay Mix - Sports Online & MOD Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+        }
+        header {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0,0,0,0.7);
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #00f5ff;
+            text-shadow: 0 0 8px #00f5ff, 0 0 15px #00c9ff;
+        }
+        #filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px;
+        }
+        #filter button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #00c9ff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #filter button:hover {
+            transform: scale(1.05);
+        }
+        #search {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            width: 80%;
+            font-size: 1rem;
+            outline: none;
+        }
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .game-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,255,255,0.2);
+            border: 1px solid rgba(0,255,255,0.15);
+            position: relative;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,255,255,0.4);
+        }
+        .img-wrapper img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 1px solid rgba(0,255,255,0.3);
+        }
+        .game-info {
+            padding: 15px;
+            text-align: center;
+        }
+        .game-info h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.1rem;
+            color: #00eaff;
+            text-shadow: 0 0 6px #00cfff;
+        }
+        .game-info p {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+        .game-info .desc {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        .unlock-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #00f5ff, #00c9ff);
+            color: #000;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+            animation: pulse 1.5s infinite;
+        }
+        .unlock-btn:hover {
+            transform: scale(1.1);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0,255,255,0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0,255,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,255,255,0); }
+        }
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #00ff88;
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            box-shadow: 0 0 6px #00ff88;
+            animation: pulseBadge 1.5s infinite;
+        }
+        @keyframes pulseBadge {
+            0% { box-shadow: 0 0 0 0 rgba(0,255,136,0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0,255,136,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,255,136,0); }
+        }
+        /* Loading screen */
+        #loading {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #0f2027;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: #00f5ff;
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px #00f5ff;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(0,255,255,0.2);
+            border-top: 6px solid #00f5ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px #00f5ff;
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 500px) {
+            .game-info h3 { font-size: 1rem; }
+            .unlock-btn { padding: 8px 12px; font-size: 0.9rem; }
+            #filter button { padding: 6px 10px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>NextPlay Mix 🎮 Sports Online & MOD Games</header>
+    <div id="filter">
+        <button data-type="all">All</button>
+        <button data-type="basketball">Basketball</button>
+        <button data-type="football">Football</button>
+        <button data-type="baseball">Baseball</button>
+        <button data-type="racing">Racing</button>
+    </div>
+    <input type="text" id="search" placeholder="Search for a game...">
+    <div class="games-container" id="games-container"></div>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Loading games...</p>
+    </div>
+
+    <script>
+        const games = [
+            { name: "NBA Live Mobile Basketball", image: "images/nbalive.png", downloads: "10M+", link: "#", type: "basketball", badge: "Online", desc: "Fast-paced basketball action!" },
+            { name: "NBA 2K Mobile", image: "images/nba2k.webp", downloads: "50M+", link: "#", type: "basketball", badge: "Online", desc: "Top basketball experience!" },
+            { name: "Basketball Stars", image: "images/basketballstars.jpg", downloads: "5M+", link: "#", type: "basketball", badge: "MOD", desc: "Fun multiplayer matches!" },
+            { name: "Fanatical Basketball", image: "images/fanatical.jpg", downloads: "2M+", link: "#", type: "basketball", badge: "Online", desc: "Challenge your friends!" },
+            { name: "Madden NFL Mobile Football", image: "images/madden.jpg", downloads: "20M+", link: "#", type: "football", badge: "Online", desc: "Ultimate football strategy!" },
+            { name: "Gridiron Champions", image: "images/gridiron.webp", downloads: "1M+", link: "#", type: "football", badge: "MOD", desc: "MOD features unlocked!" },
+            { name: "Rival Stars College Football MOD", image: "images/rivalstars.jpg", downloads: "1M+", link: "#", type: "football", badge: "MOD", desc: "College football excitement!" },
+            { name: "Retro Bowl MOD", image: "images/retrobowl.webp", downloads: "10M+", link: "#", type: "football", badge: "MOD", desc: "Classic retro gameplay!" },
+            { name: "MLB 9 Innings 24", image: "images/mlb24.jpg", downloads: "15M+", link: "#", type: "baseball", badge: "Online", desc: "Hit home runs like a pro!" },
+            { name: "MLB Perfect Inning 2025", image: "images/mlb25.jpg", downloads: "8M+", link: "#", type: "baseball", badge: "MOD", desc: "Enhanced MOD version!" },
+            { name: "Baseball 9", image: "images/ball.png", downloads: "12M+", link: "#", type: "baseball", badge: "Online", desc: "Quick baseball matches!" },
+            { name: "MLB Rivals Mod", image: "images/rivals.jpg", downloads: "5M+", link: "#", type: "baseball", badge: "MOD", desc: "Compete with rivals!" },
+            { name: "Asphalt 9: Legends", image: "images/asphalt9.jpg", downloads: "50M+", link: "#", type: "racing", badge: "Online", desc: "High-speed racing thrills!" },
+            { name: "CarX Drift Racing 2", image: "images/carx.jpg", downloads: "25M+", link: "#", type: "racing", badge: "MOD", desc: "MOD drift challenges!" },
+            { name: "Traffic Racer", image: "images/trafficracing.jpg", downloads: "30M+", link: "#", type: "racing", badge: "Online", desc: "Avoid traffic at high speed!" },
+            { name: "Rocket League Sideswipe", image: "images/rocket-league.webp", downloads: "20M+", link: "#", type: "racing", badge: "Online", desc: "Soccer meets high-speed cars!" }
+        ];
+
+        const container = document.getElementById('games-container');
+        const searchInput = document.getElementById('search');
+        const filterButtons = document.querySelectorAll('#filter button');
+
+        function renderGames(list) {
+            container.innerHTML = '';
+            list.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `
+                    <span class="badge">${game.badge}</span>
+                    <div class="img-wrapper">
+                        <img src="${game.image}" alt="${game.name}" loading="lazy" />
+                    </div>
+                    <div class="game-info">
+                        <h3>${game.name}</h3>
+                        <p>${game.downloads} downloads</p>
+                        <p class="desc">${game.desc}</p>
+                        <a href="${game.link}" class="unlock-btn">Download</a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        renderGames(games);
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const term = searchInput.value.toLowerCase();
+            const filtered = games.filter(game => game.name.toLowerCase().includes(term));
+            renderGames(filtered);
+        });
+
+        // Filter functionality
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.getAttribute('data-type');
+                if (type === 'all') renderGames(games);
+                else renderGames(games.filter(game => game.type === type));
+            });
+        });
+
+        // Hide loading after page load
+        window.addEventListener('load', () => {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        });
+
+        // كونتت لوكد
+        function showLockedContent() {
+            const lockedLink = "https://lockverify.net/cl/i/dv65w6";
+            alert("للاستفادة من الميزات المميزة، يرجى زيارة الرابط: " + lockedLink);
+        }
+
+        // عند الحاجة لعرض المحتوى المقفل، يمكنك استدعاء الدالة
+        // showLockedContent(); // يمكنك استخدام هذه الدالة عند نقطة معينة في السكربت إذا لزم الأمر
+
+    </script>
+</body>
+</html>
+
